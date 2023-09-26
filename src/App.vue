@@ -16,12 +16,20 @@ async function optener(){
 
 
 
-let imageUrl = ref('')
-let nombre = ref('')
-let peso = ref('')
-let altura = ref('')
+let imageUrl = ref('https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExZ3h5ZHRjY213c3NrOGV3dGM1YWNrbHY2bjQ0bWVvajY2bHdpOTI1YyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3oEjI6SIIHBdRxXI40/giphy.gif')
+let nombre = ref('- - - - -')
+let peso = ref('- - -')
+let altura = ref('- - -')
 let tipo = ref('')
-let estadisticas = ref([])
+let estadisticas = ref([
+  {base_stat: 10, stat: {name: "hp"}},
+  {base_stat: 10, stat: {name: "attack"}},
+  {base_stat: 10, stat: {name: "defense"}},
+  {base_stat: 10, stat: {name: "special-attack"}},
+  {base_stat: 10, stat: {name: "special-defense"}},
+  {base_stat: 10, stat: {name: "speed"}}
+])
+
 </script>
 
 <template>
@@ -30,6 +38,10 @@ let estadisticas = ref([])
     <div class="conttarjeta">
       <div class="nombrepoke txtpoke">{{ nombre }}</div>
       <img :src="imageUrl" class="imagenpoke">
+      <div>
+        <div>altura: {{ altura }}</div>
+        <div>peso: {{ peso }}</div>
+      </div>
       <div class="estadisticascont">
         <div v-for="estadistica in estadisticas" :key="estadistica.id" class="estadistica" >
           {{ estadistica.stat.name }}:
@@ -54,8 +66,8 @@ let estadisticas = ref([])
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  color: rgb(255, 255, 255);
+  background-color: #ffffff;
   min-height: 100vh;
   display: grid;
   justify-content: center;
@@ -109,6 +121,7 @@ button:focus-visible {
 }
 
 .conttarjeta {
+  display: none;
   margin: 20px;
   border-radius: 20px;
   border: solid 5px rgba(255, 255, 255, 0.63);
@@ -140,32 +153,36 @@ button:focus-visible {
   margin: 20px;
   margin-left: auto;
   margin-right: auto;
+  border-radius: 20px;
+  padding: 20px;
+  border: solid 4px rgba(255, 255, 255, 0.685);
 
   font-size: large;
   font-weight: bold;
-  background-color: #5f3e00;
+  background-color: #000000;
+  transition: width 0.5s, height 0.5s;
 }
 
 .estadistica{
-  margin: 20px 0px;
+  margin: 15px 0px;
 }
 
 .barracont{
-  border: solid 5px rgba(255, 255, 255, 0.63);
+  border: solid 5px rgba(114, 114, 114, 0);
   border-radius: 0px;
-  width: 97%;
+  width: auto;
   overflow: hidden;
-  background-color: #ffffff;
+  background-color: #700000;
 }
 
 .barra{
   height: 100%;
-  width: 50%;
-  background-color: rgb(212, 212, 69);
+  width: 10%;
+  background-color: rgb(255, 255, 0);
   border-radius: 5px;
   color: #5f3e00;
   text-align: center;
-  padding-left: px;
+  transition: width 0.5s
 }
 
 </style>
