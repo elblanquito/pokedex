@@ -8,11 +8,19 @@ async function cargar(){
   
   for (let i = 0; i < todo.data.results.length; i++){
     let r = await axios.get(todo.data.results[i].url)
+    let typesArray = [];
+        for (let j = 0; j < r.data.types.length; j++) {
+          typesArray.push(r.data.types[j].type.name);
+        }
+
     data.value.push({
       name: r.data.name.charAt(0).toUpperCase() + r.data.name.slice(1),
-      img: r.data.sprites.other['official-artwork'].front_default
+      img: r.data.sprites.other['official-artwork'].front_default,
+      url: todo.data.results[i].url,
+      types: typesArray
     })
   }
+  console.log(data.value)
 }
 
 
@@ -32,6 +40,10 @@ async function obtener(url){
   estadisticas.value = r.data.stats
   peso.value = r.data.weight
   altura.value = r.data.height
+  tipos.value = []
+  for (let i = 0; i < r.data.types.length; i++) {
+    tipos.value.push(r.data.types[i].type.name);
+  }
 }
 
   
@@ -42,7 +54,7 @@ function reset_tarjeta() {
   nombre.value = '- - - - -';
   peso.value = '- - -';
   altura.value = '- - -';
-  tipo.value = '';
+  tipos.value = [];
   estadisticas.value = [
     {base_stat: 10, stat: {name: "hp"}},
     {base_stat: 10, stat: {name: "attack"}},
@@ -59,7 +71,7 @@ let imageUrl = ref();
 let nombre = ref();
 let peso = ref();
 let altura = ref();
-let tipo = ref();
+let tipos = ref();
 let estadisticas = ref([]);
 reset_tarjeta()
 
@@ -74,16 +86,25 @@ for (let i = 1; i <= 50; i++) {
 
 
 
+
+
+
 </script>
 
 <template>
   <div class="cont">
     <button @click="obtener('https://pokeapi.co/api/v2/pokemon/4/',true)" class="obtener">obtener info</button>
     <div class="pokecont">
-      <div v-for="dato in data" :key="dato.id" class="poke">
+      <button v-for="dato in data" :key="dato.id" class="poke" @click="obtener(dato.url)">
         {{ dato.name }}
         <img :src="dato.img" :alt="dato.name" class="pokeimg">
-      </div>
+        <div>
+          <button v-for="tipo in dato.types" :key="tipo.id" class="type" :class="[tipo]">
+            {{ tipo }}
+          </button>
+        </div>
+      </button>
+      
     
     </div>
     <div class="conttarjeta" v-if="mostrartarjeta">
@@ -93,11 +114,18 @@ for (let i = 1; i <= 50; i++) {
         <div class="dato">altura: {{ altura }}</div>
         <div class="dato">peso: {{ peso }}</div>
       </div>
+      <div class="type2cont">
+          <button v-for="tipo in tipos" :key="tipo.id" class="type2" :class="[tipo]">
+            {{ tipo }}
+          </button>
+      </div>
       <div class="estadisticascont">
         <div v-for="estadistica in estadisticas" :key="estadistica.id" class="estadistica" >
           {{ estadistica.stat.name }}:
           <div class="barracont">
-            <div class="barra" :style="{ width: estadistica.base_stat + '%' }">
+            <div class="barra" 
+            :style="{ width: estadistica.base_stat > 100 ? '100%' : estadistica.base_stat + '%' }"
+            >
               {{ estadistica.base_stat }}
             </div>
           </div>
@@ -130,7 +158,7 @@ for (let i = 1; i <= 50; i++) {
 
   color-scheme: light dark;
   color: rgb(0, 0, 0);
-  background-color: #ffffff;
+  background-color: #290e55;
   min-height: 100vh;
   display: grid;
   justify-content: center;
@@ -138,30 +166,87 @@ for (let i = 1; i <= 50; i++) {
 }
 
 .pokecont{
+  padding: 20px;
   text-align: center;
   font-size: 20px;
   font-weight: bold;
   width: 90vw;
   border: solid 1px black;
-  display: grid;
-  /* Columnas automáticas, cada una con mínimo 100px de ancho */
-  grid-template-columns: repeat(auto-fill, minmax(1px, 250px)); 
-  justify-content: center;
+  background-color: #000000;
+  display: flex;
+  flex-wrap: wrap; /* Permite que los elementos se envuelvan en filas */
+  justify-content: center; /* Distribuye el espacio entre los elementos */
+  box-sizing: border-box;
 }
 
+
 .poke{
-  justify-content: center;
   display: grid;
-  width: calc(100% - 40px);
-  height: ;
-  margin: 10px;
-  border: solid 1px black;
+  background-color: black;
+  width: 250px;
+  margin:20px 10px;
+  border: solid 2px rgb(255, 255, 255);
   padding: 10px;
+  font-size: 20px;
+  transition: transform 0.5s ease; 
 }
+
+.poke:hover{
+  border: solid 2px yellow;
+  color: yellow;
+  box-shadow: 0px 0px 10px yellow;
+}
+
+.poke:hover .pokeimg {
+  border: solid 3px yellow;
+}
+
+
 
 .pokeimg{
   width: 60%;
-  margin: auto;
+  margin: 10px auto;
+  background: #d4d4c5;
+  border: solid 3px rgb(255, 255, 255);
+}
+
+
+.type{
+  width:fit-content;
+  padding: 5px 7px;
+  margin: 10px;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.grass{
+  background-color: rgb(32, 160, 0);
+}
+.poison{
+  background-color: rgb(83, 0, 160);
+}
+
+.fire{
+  background-color: rgb(233, 110, 28);
+}
+.flying{
+  background-color: rgb(69, 167, 154);
+}
+.water{
+  background-color: rgb(50, 66, 156);
+}
+.bug{
+  background-color: rgb(111, 145, 58);
+}
+.electric{
+  background-color: rgb(209, 160, 0);
+}
+.ground{
+  background-color: rgb(133, 85, 46);
+}
+.fairy{
+  background-color: rgb(207, 0, 121);
 }
 
 
@@ -213,11 +298,12 @@ for (let i = 1; i <= 50; i++) {
 
 
 .conttarjeta {
+  color: white;
   position: absolute;
   margin: 20px;
   border-radius: 20px;
   border: solid 5px rgba(255, 255, 255, 0.63);
-  background-color: #2f6125; 
+  background-color: #000000; 
   width: 90vw;
   max-width: 500px;
   min-width: 200px;
@@ -230,7 +316,7 @@ for (let i = 1; i <= 50; i++) {
   max-width: 300px;
   margin-left: auto;
   margin-right: auto;
-  border: solid 5px #24180e;
+  border: solid 5px #ffffff;
   background-color: antiquewhite;
 }
 
@@ -252,6 +338,21 @@ for (let i = 1; i <= 50; i++) {
   font-size: 40px;
   font-weight: bold;
   margin-top: 10px;
+}
+
+.type2cont{
+  width: fit-content;
+  margin: auto;
+}
+
+.type2{
+  width:fit-content;
+  padding: 10px 15px;
+  margin: 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 15px;
+  font-weight: bold;
 }
 
 .estadisticascont{
@@ -292,9 +393,19 @@ for (let i = 1; i <= 50; i++) {
 }
 
 .cerrabtn{
+  font-size: 17px;
+  font-weight: bold;
   display: grid;
-  background-color: #970000;
+  background-color: #000000;
   margin: 20px auto;
+  padding: 10px 45px;
+  border: solid white;
+  border-radius: 10px;
+}
+
+.cerrabtn:hover{
+  border: solid yellow;
+  color: yellow;
 }
 
 </style>
