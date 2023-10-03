@@ -54,7 +54,7 @@ function reset_tarjeta() {
   nombre.value = '- - - - -';
   peso.value = '- - -';
   altura.value = '- - -';
-  tipos.value = [];
+  tipos.value = ['- - -']
   estadisticas.value = [
     {base_stat: 10, stat: {name: "hp"}},
     {base_stat: 10, stat: {name: "attack"}},
@@ -66,7 +66,7 @@ function reset_tarjeta() {
 }
 
 let data = ref([])
-let mostrartarjeta = ref(false);
+let mostrartarjeta = ref(true);
 let imageUrl = ref();
 let nombre = ref();
 let peso = ref();
@@ -93,7 +93,6 @@ for (let i = 1; i <= 50; i++) {
 
 <template>
   <div class="cont">
-    <button @click="obtener('https://pokeapi.co/api/v2/pokemon/4/',true)" class="obtener">obtener info</button>
     <div class="pokecont">
       <button v-for="dato in data" :key="dato.id" class="poke" @click="obtener(dato.url)">
         {{ dato.name }}
@@ -107,7 +106,7 @@ for (let i = 1; i <= 50; i++) {
       
     
     </div>
-    <div class="conttarjeta" v-if="mostrartarjeta">
+    <div class="conttarjeta" v-if="true">
       <div class="nombrepoke txtpoke">{{ nombre }}</div>
       <img :src="imageUrl" class="imagenpoke">
       <div class="datoscont">
@@ -115,7 +114,7 @@ for (let i = 1; i <= 50; i++) {
         <div class="dato">peso: {{ peso }}</div>
       </div>
       <div class="type2cont">
-          <button v-for="tipo in tipos" :key="tipo.id" class="type2" :class="[tipo]">
+          <button v-for="tipo in tipos" :key="tipo.id" class="type2 type" :class="[tipo]">
             {{ tipo }}
           </button>
       </div>
@@ -131,8 +130,8 @@ for (let i = 1; i <= 50; i++) {
           </div>
         </div>
       </div>
-      <button @click="reset_tarjeta()" class="cerrabtn">cerrar</button>
-    </div>
+      <!-- <button @click="reset_tarjeta()" class="cerrabtn">cerrar</button>
+ -->    </div>
   </div>
 
 </template>
@@ -155,22 +154,23 @@ for (let i = 1; i <= 50; i++) {
 
 .cont {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-
+  display: grid;
+  grid-template-columns: auto 400px;
   color-scheme: light dark;
-  color: rgb(0, 0, 0);
-  background-color: #290e55;
+  color: white;
+  background-color: #000000;
   min-height: 100vh;
   display: grid;
   justify-content: center;
-  
 }
 
 .pokecont{
+  color: white;
   padding: 20px;
   text-align: center;
   font-size: 20px;
   font-weight: bold;
-  width: 90vw;
+  width: 100%;
   border: solid 1px black;
   background-color: #000000;
   display: flex;
@@ -181,6 +181,7 @@ for (let i = 1; i <= 50; i++) {
 
 
 .poke{
+  color: white;
   display: grid;
   background-color: black;
   width: 250px;
@@ -212,6 +213,8 @@ for (let i = 1; i <= 50; i++) {
 
 
 .type{
+  color: white;
+  background-color: rgb(167, 167, 167);
   width:fit-content;
   padding: 5px 7px;
   margin: 10px;
@@ -298,13 +301,16 @@ for (let i = 1; i <= 50; i++) {
 
 
 .conttarjeta {
+  position: sticky;
+  top: 50%;
+  transform: translate(0,-50%);
   color: white;
-  position: absolute;
-  margin: 20px;
+  margin: auto;
+  margin-top: 0;
   border-radius: 20px;
-  border: solid 5px rgba(255, 255, 255, 0.63);
+  border: solid 4px rgba(255, 255, 255);
   background-color: #000000; 
-  width: 90vw;
+  width: 90%;
   max-width: 500px;
   min-width: 200px;
   animation: aparecer 0.2s ease-out ;
@@ -342,13 +348,14 @@ for (let i = 1; i <= 50; i++) {
 
 .type2cont{
   width: fit-content;
-  margin: auto;
+  margin: auto ;
 }
 
 .type2{
+  color: white;
   width:fit-content;
   padding: 10px 15px;
-  margin: 10px;
+  margin: 0px;
   border: none;
   border-radius: 5px;
   font-size: 15px;
@@ -358,11 +365,12 @@ for (let i = 1; i <= 50; i++) {
 .estadisticascont{
   width: 80%;
   margin: 20px;
+  margin: 0px;
   margin-left: auto;
   margin-right: auto;
   border-radius: 20px;
-  padding: 20px;
-  border: solid 4px rgba(255, 255, 255, 0.685);
+  padding: 0px 20px;
+  border: solid 0px rgb(255, 255, 255);
 
   font-size: large;
   font-weight: bold;
@@ -393,6 +401,7 @@ for (let i = 1; i <= 50; i++) {
 }
 
 .cerrabtn{
+  color: white;
   font-size: 17px;
   font-weight: bold;
   display: grid;
