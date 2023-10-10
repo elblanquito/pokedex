@@ -110,24 +110,24 @@ for (let i = 1; i <= 50; i++) {
       <div class="nombrepoke txtpoke">{{ nombre }}</div>
       <img :src="imageUrl" class="imagenpoke">
       <div class="datoscont">
-        <div class="dato">altura: {{ altura }}</div>
-        <div class="dato">peso: {{ peso }}</div>
+        <p class="dato"><div>altura</div>{{ altura }}</p>
+        <p class="dato"><div>peso</div> {{ peso }}</p>
+        <button v-for="tipo in tipos" :key="tipo.id" class="type2 type" :class="[tipo]">
+        {{ tipo }}
+        </button>
       </div>
       <div class="type2cont">
-          <button v-for="tipo in tipos" :key="tipo.id" class="type2 type" :class="[tipo]">
-            {{ tipo }}
-          </button>
+          
       </div>
       <div class="estadisticascont">
         <div v-for="estadistica in estadisticas" :key="estadistica.id" class="estadistica" >
-          {{ estadistica.stat.name }}:
-          <div class="barracont">
+          <p class="estadisticatxt">{{ estadistica.stat.name }}</p>
+          <button class="barracont">
             <div class="barra" 
-            :style="{ width: estadistica.base_stat > 100 ? '100%' : estadistica.base_stat + '%' }"
-            >
+            :style="{ width: estadistica.base_stat > 100 ? '100%' : estadistica.base_stat + '%' }">
               {{ estadistica.base_stat }}
             </div>
-          </div>
+          </button>
         </div>
       </div>
       <!-- <button @click="reset_tarjeta()" class="cerrabtn">cerrar</button>
@@ -329,11 +329,13 @@ for (let i = 1; i <= 50; i++) {
 .datoscont{
   margin: 10px 10%;
   display: grid;
-  grid-template-columns: 50% 50%;
+  grid-template-columns: 25% 25% auto auto;
+  justify-content: center;
+  align-items: center;
 }
 
 .dato{
-
+  text-align: center;
   font-size: 20px;
   font-weight: bold;
   margin: auto;
@@ -363,29 +365,34 @@ for (let i = 1; i <= 50; i++) {
 }
 
 .estadisticascont{
-  width: 80%;
-  margin: 20px;
-  margin: 0px;
-  margin-left: auto;
-  margin-right: auto;
-  border-radius: 20px;
-  padding: 0px 20px;
-  border: solid 0px rgb(255, 255, 255);
 
+  width: 90%;
+  margin: auto;
+  margin-bottom: 10px;
   font-size: large;
   font-weight: bold;
+  text-align:left;
   background-color: #000000;
-  transition: width 0.5s, height 0.5s;
 }
 
 .estadistica{
-  margin: 15px 0px;
+  margin: 10px 0px;
+  display: grid;
+  grid-template-columns: 45% auto;
+
+  align-items: center;
+}
+
+.estadisticatxt{
+  text-align: end;
+  margin-right: 15px;
 }
 
 .barracont{
-  border: solid 5px rgba(114, 114, 114, 0);
+  border: none;
   border-radius: 0px;
-  width: auto;
+  width: 100%;
+  margin: right;
   overflow: hidden;
   background-color: #700000;
 }
@@ -393,11 +400,13 @@ for (let i = 1; i <= 50; i++) {
 .barra{
   height: 100%;
   width: 10%;
+  display: grid;
+  align-items: center;
   background-color: rgb(255, 255, 0);
   border-radius: 5px;
   color: #5f3e00;
   text-align: center;
-  transition: width 0.5s
+  transition: width 1s;
 }
 
 .cerrabtn{
