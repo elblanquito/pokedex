@@ -92,6 +92,42 @@ for (let i = 1; i <= 50; i++) {
 </script>
 
 <template>
+  <div>
+    <q-toolbar class="bg-accent text-white head">
+      <q-input  class="bg-white buscartxt"  v-model = "texto">
+        <q-btn flat round dense icon="search" />
+      </q-input>
+
+
+
+
+     
+
+      <q-btn-dropdown stretch flat label="Filtros">
+        <q-list>
+          <q-item-label header>Clases de pokemons</q-item-label>
+          <q-separator inset spaced />
+
+          <q-item v-for="n in 3" :key="`x.${n}`" clickable v-close-popup tabindex="0">
+
+            <q-item-section avatar>
+              <q-avatar icon="plant" color="secondary" text-color="white" />
+            </q-item-section>
+
+            <q-item-section>
+              <q-item-label>fuego</q-item-label>
+              <q-item-label caption>February 22, 2016</q-item-label>
+            </q-item-section>
+            
+            <q-item-section side>
+              <q-icon name="info" />
+            </q-item-section>
+          </q-item>
+
+          <q-separator inset spaced />
+        </q-list>
+      </q-btn-dropdown>
+    </q-toolbar>
   <div class="cont">
     <div class="pokecont">
       <button v-for="dato in data" :key="dato.id" class="poke" @click="obtener(dato.url)">
@@ -133,6 +169,7 @@ for (let i = 1; i <= 50; i++) {
       <!-- <button @click="reset_tarjeta()" class="cerrabtn">cerrar</button>
  -->    </div>
   </div>
+</div>
 
 </template>
 
@@ -150,6 +187,15 @@ for (let i = 1; i <= 50; i++) {
   100% {
     opacity: 1;
   }
+}
+
+.head{
+  padding: 0px;
+}
+
+.buscartxt{
+  width: 350px;
+  padding: 0px 20px;
 }
 
 .cont {
@@ -254,55 +300,9 @@ for (let i = 1; i <= 50; i++) {
 
 
 
-
-
-.obtener {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 15px 20px;
-  font-size: 20px;
-  margin-top: 20px;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-
-  
-  margin-left: auto;
-  margin-right: auto;
-  width: fit-content;
-  height: fit-content;
-}
-.obtener:hover {
-  border-color: #646cff;
-}
-.obtener:focus,
-.obtener:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-
-
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  .obtener {
-    background-color: #f9f9f9;
-  }
-}
-
-
-
 .conttarjeta {
   position: sticky;
-  top: 50%;
+  top: calc(50% + 50px);
   transform: translate(0,-50%);
   color: white;
   margin: auto;
