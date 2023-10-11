@@ -93,7 +93,7 @@ for (let i = 1; i <= 50; i++) {
 
 <template>
   <div>
-    <q-toolbar class="bg-accent text-white head">
+    <q-toolbar class="bg-accent text-white head fixed-top">
       <q-input  class="bg-white buscartxt"  v-model = "texto">
         <q-btn flat round dense icon="search" />
       </q-input>
@@ -191,6 +191,7 @@ for (let i = 1; i <= 50; i++) {
 
 .head{
   padding: 0px;
+  z-index: 3;
 }
 
 .buscartxt{
@@ -208,6 +209,7 @@ for (let i = 1; i <= 50; i++) {
   min-height: 100vh;
   display: grid;
   justify-content: center;
+  padding-top: 40px;
 }
 
 .pokecont{
